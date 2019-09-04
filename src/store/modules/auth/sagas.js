@@ -9,7 +9,7 @@ export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
 
-    const response = yield call(api.post, 'sessions', {
+    const response = yield call(api.post, 'session', {
       email,
       password,
     });
@@ -22,7 +22,7 @@ export function* signIn({ payload }) {
 
     history.push('/dashboard');
   } catch (err) {
-    toast.error('Falha na autenticação, verifique seus dados');
+    toast.error('Authentication failed, check your fields');
     yield put(signFailure());
   }
 }
@@ -31,16 +31,16 @@ export function* signUp({ payload }) {
   try {
     const { name, email, password } = payload;
 
-    yield call(api.post, 'users', {
+    yield call(api.post, 'user', {
       name,
       email,
       password,
     });
-    toast.success('Conta criada com sucesso!');
+    toast.success('Account successfully created');
 
     history.push('/');
   } catch (err) {
-    toast.error('Falha no cadastro, verifique seus dados');
+    toast.error('Register failed, check your fields');
     yield put(signFailure());
   }
 }

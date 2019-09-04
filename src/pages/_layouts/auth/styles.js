@@ -15,26 +15,31 @@ export const Content = styled.div`
   max-width: 315px;
   text-align: center;
 
+  img {
+    width: 290px;
+    height: 160px;
+  }
+
   form {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
 
     input {
-      background: rgba(0, 0, 0, 0.1);
+      background: rgb(255, 255, 255);
       border: 0;
       border-radius: 4px;
       height: 44px;
       padding: 0 15px;
-      color: #fff;
+      color: #111111;
       margin: 0 0 10px;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.6);
       }
     }
     span {
-      color: #fb6f91;
+      color: #ffffff;
       align-self: flex-start;
       margin: 0 0 10px;
       font-weight: bold;
@@ -43,7 +48,7 @@ export const Content = styled.div`
     button {
       margin: 5px 0 0;
       height: 44px;
-      background: #f94d6a;
+      background: #ff298f;
       font-weight: bold;
       color: #fff;
       border: 0;
@@ -52,7 +57,7 @@ export const Content = styled.div`
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, '#f94d6a')};
+        background: ${darken(0.03, '#FF298F')};
       }
     }
 
