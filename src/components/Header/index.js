@@ -1,7 +1,40 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-// import { Container } from './styles';
+import { signOut } from '../../store/modules/auth/actions';
+
+import logo from '../../assets/logo.png';
+
+import { Container, Content, Profile } from './styles';
 
 export default function Header() {
-  return <div />;
+  const dispatch = useDispatch();
+  function handleSignOut() {
+    dispatch(signOut());
+  }
+
+  const profile = useSelector(state => state.user.profile);
+
+  return (
+    <Container>
+      <Content>
+        <Link to="/dashboard">
+          <nav>
+            <img src={logo} alt="Yobetit" />
+          </nav>
+        </Link>
+
+        <aside>
+          <Profile>
+            <div>
+              <strong>{profile.name}</strong>
+              <span>Welcome!</span>
+            </div>
+            <button onClick={handleSignOut}>Exit</button>
+          </Profile>
+        </aside>
+      </Content>
+    </Container>
+  );
 }
