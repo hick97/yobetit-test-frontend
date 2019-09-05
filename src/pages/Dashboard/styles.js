@@ -18,6 +18,12 @@ export const ContentHeader = styled.div`
   align-items: center;
 
   button {
+    svg {
+      margin: 0px 10px;
+    }
+    display: flex;
+    align-self: center;
+    align-items: center;
     width: 172px;
     font-weight: bold;
     font-size: 16px;
@@ -98,11 +104,15 @@ export const DefaultButton = styled.button`
 `;
 export const PushedCountriesWrapper = styled.ul`
   margin-top: 0;
+  margin-bottom: 15px;
   width: 1100px;
+
   li {
+    font-weight: bold;
+    font-size: 16px;
     display: inline;
     margin-right: 5px;
-    background: rgba(0, 0, 0, 0.2);
+    background: #f58a22;
     padding: 10px;
   }
 `;
@@ -110,6 +120,24 @@ export const PushedCountriesWrapper = styled.ul`
 export const CountriesWrapper = styled.div`
   max-width: 1100px;
   max-height: 600px;
+
+  input {
+    width: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid #fff;
+    margin-bottom: 5px;
+
+    border-radius: 4px;
+
+    &::placeholder {
+      color: #fff;
+    }
+  }
 `;
 
 export const CountryInfo = styled.div`
@@ -122,6 +150,7 @@ export const CountryInfo = styled.div`
   margin-bottom: 8px;
   margin-right: 5px;
   color: #ffffff !important;
+  border: 1px solid #fff;
 
   img {
     width: 100px;

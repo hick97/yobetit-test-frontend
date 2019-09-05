@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 
-import api from '../../services/api';
+import { MdCasino, MdAdd } from 'react-icons/md';
+
+import {
+  getAllCountriesRequest,
+  getCountriesByNameRequest,
+  getCountriesFromArrayRequest,
+} from '../../store/modules/country/actions';
 
 import {
   Container,
@@ -16,12 +22,30 @@ import {
 } from './styles';
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+
+  const countries = useSelector(state => state.country.countries);
+  const loading = useSelector(state => state.country.loading);
+
   // States
-  const [loading, setLoaging] = useState(false);
   const [countryToPush, setCountryToPush] = useState('');
   const [pushedCountries, setPushedCountries] = useState([]);
   const [country, setCountry] = useState('');
-  const [countries, setCountries] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
+
+  // Starting initial countries array with all countries
+
+  /*eslint-disable */
+  useEffect(() => {
+    dispatch(getAllCountriesRequest());
+    setFilteredCountries(countries)
+  }, []);
+  /* eslint-enable */
+
+  // Setting values in filtered array ever that countries values change
+  useEffect(() => {
+    setFilteredCountries(countries);
+  }, [countries]);
 
   function handleCountryChange(e) {
     e.target.name === 'added_country'
@@ -31,62 +55,26 @@ export default function Dashboard() {
 
   // Getting countries from array
   async function getCountriesFromArray(e) {
-    try {
-      e.preventDefault();
-
-      setLoaging(true);
-      const response = await api.post('/country/names', {
-        names: pushedCountries,
-      });
-
-      const result = [];
-
-      response.data.map(c => {
-        result.push(...c);
-      });
-
-      setCountries(result);
-
-      setPushedCountries([]);
-      setLoaging(false);
-    } catch (err) {
-      toast.error('Failed to load countries');
-    }
+    e.preventDefault();
+    dispatch(getCountriesFromArrayRequest(pushedCountries));
+    setPushedCountries([]);
   }
 
   // Getting country by name
   async function handleCountryByName(e) {
-    try {
-      e.preventDefault();
-
-      setLoaging(true);
-      const response = await api.get(`/country/name/${country}`);
-
-      setCountries([response.data]);
-      setLoaging(false);
-    } catch (err) {
-      toast.error('Failed to load country');
-    }
+    e.preventDefault();
+    dispatch(getCountriesByNameRequest(country));
+    setCountry('');
   }
 
   // Getting all countries
   async function handleGetAll() {
-    try {
-      setLoaging(true);
-      const response = await api.get('/country/all');
-
-      setCountries(response.data);
-      setLoaging(false);
-    } catch (err) {
-      toast.error('Failed to load countries');
-    }
+    dispatch(getAllCountriesRequest());
   }
 
   // Pushing countries in array
   function handlePushCountry(e) {
     e.preventDefault();
-
-    setCountries([]);
 
     if (pushedCountries.length === 0) {
       setPushedCountries([countryToPush]);
@@ -100,15 +88,35 @@ export default function Dashboard() {
   // Resetting pushed countries
   function handleResetPushedCountries(e) {
     e.preventDefault();
-
     setPushedCountries([]);
   }
+
+  // Filtering countries
+  function filterCountries(keySearch) {
+    const ks = keySearch.toLowerCase();
+
+    const result = countries.filter(item => {
+      const { name } = item;
+      return name.toLowerCase().search(ks) !== -1;
+    });
+
+    return result;
+  }
+  async function handleFilter(keySearch) {
+    const result = await filterCountries(keySearch);
+
+    setFilteredCountries(result);
+  }
+
   return (
     <Container>
       <ContentHeader>
         <h1>Country Hunter</h1>
-        <Link to="/meetup">
-          <button>SLOT MACHINE</button>
+        <Link to="/machine">
+          <button>
+            <MdCasino size={20} color="#FFF" />
+            SLOT MACHINE
+          </button>
         </Link>
       </ContentHeader>
       <h4>What are you looking for?</h4>
@@ -145,7 +153,7 @@ export default function Dashboard() {
                 value={countryToPush}
                 onChange={handleCountryChange}
               />
-              <button type="submit">+</button>
+              <button type="submit">ADD</button>
             </form>
           </div>
         </SearchContainer>
@@ -164,8 +172,15 @@ export default function Dashboard() {
         </>
       ) : null}
       <CountriesWrapper>
-        {countries &&
-          countries.map(c => (
+        <input
+          onChange={e => handleFilter(e.target.value)}
+          type="search"
+          className="form-control"
+          id="inlineFormInputGroup"
+          placeholder="Search..."
+        />
+        {filteredCountries &&
+          filteredCountries.map(c => (
             <CountryInfo key={c.numericCode}>
               <img src={c.flag} alt="Brazil" />
               <div>
