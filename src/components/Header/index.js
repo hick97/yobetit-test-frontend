@@ -31,7 +31,7 @@ export default function Header() {
               <strong>{profile.name}</strong>
               <span>Welcome!</span>
             </div>
-            <button onClick={handleSignOut}>Exit</button>
+            <button onClick={handleSignOut}>EXIT</button>
           </Profile>
         </aside>
       </Content>

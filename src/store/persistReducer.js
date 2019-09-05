@@ -7,7 +7,7 @@ export default reducers => {
     {
       key: 'yobetit',
       storage,
-      whitelist: ['auth', 'user'],
+      whitelist: ['auth', 'user', 'country'],
     },
     reducers
   );
