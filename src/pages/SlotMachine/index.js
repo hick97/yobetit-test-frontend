@@ -34,20 +34,18 @@ const SlotMachine = () => {
     state => state.machine.spin_result
   );
 
+  const [rolling, setRoll] = useState(true);
+
   // Initializing reels
   const [firstIndex, setFirst] = useState(0);
   const [secondIndex, setSecond] = useState(1);
   const [thirdIndex, setThird] = useState(2);
 
-  function showSpinResult(t1, t2, t3) {
-    dispatch(getSpinResultRequest());
-
-    // Setting spin result
-    setFirst(fruits[reels[0]]);
-    setSecond(fruits[reels[1]]);
-    setThird(fruits[reels[2]]);
-
+  async function showSpinResult(t1, t2, t3) {
     // Stopping roll
+    dispatch(getSpinResultRequest());
+    setRoll(false);
+
     clearInterval(t1);
     clearInterval(t2);
     clearInterval(t3);
@@ -55,12 +53,15 @@ const SlotMachine = () => {
 
   function rollingFruits() {
     // Disturbing photos
+    setRoll(true);
     const firstT = setInterval(() => setFirst(state => (state + 1) % 4), 50);
     const secondT = setInterval(() => setSecond(state => (state + 1) % 4), 50);
     const thirdT = setInterval(() => setThird(state => (state + 1) % 4), 50);
 
     // Show result after 4 seconds
-    setTimeout(() => showSpinResult(firstT, secondT, thirdT), 4000);
+    setTimeout(() => {
+      showSpinResult(firstT, secondT, thirdT);
+    }, 4000);
   }
 
   return (
@@ -75,15 +76,30 @@ const SlotMachine = () => {
         </Link>
       </ContentHeader>
       <div>
-        <img className="bg" src={pics[firstIndex]} alt="First Reel" />
-        <img className="bg" src={pics[secondIndex]} alt="Second Reel" />
-        <img className="bg" src={pics[thirdIndex]} alt="Third Reel" />
+        {rolling ? (
+          <>
+            <img className="bg" src={pics[firstIndex]} alt="First Reel" />
+            <img className="bg" src={pics[secondIndex]} alt="Second Reel" />
+            <img className="bg" src={pics[thirdIndex]} alt="Third Reel" />
+          </>
+        ) : (
+          <>
+            <img className="bg" src={pics[fruits[reels[0]]]} alt="First Reel" />
+            <img
+              className="bg"
+              src={pics[fruits[reels[1]]]}
+              alt="Second Reel"
+            />
+            <img className="bg" src={pics[fruits[reels[2]]]} alt="Third Reel" />
+          </>
+        )}
       </div>
       <div>
         <button onClick={rollingFruits}>
           <MdLoop size={20} color="#FFF" />
           SPIN
         </button>
+
         {coins_won > 0 ? (
           <h3>Congratulations! You won {coins_won} coins!</h3>
         ) : null}
