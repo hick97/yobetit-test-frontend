@@ -28,8 +28,8 @@ export default function Header() {
         <aside>
           <Profile>
             <div>
-              <strong>{profile.name}</strong>
-              <span>Welcome!</span>
+              <strong>Welcome {profile.name}!</strong>
+              <span>Your coins: {profile.coins}</span>
             </div>
             <button onClick={handleSignOut}>EXIT</button>
           </Profile>
