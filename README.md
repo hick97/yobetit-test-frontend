@@ -9,7 +9,7 @@ This application provides an interface to improve the user experience about all 
 # Running locally
 
 - Download or clone the project access the project folder with the terminal and execute the CLI <code>npm install</code> or <code>yarn</code>
-- Run the server in development mode <code>npm start</code> or <code>yarn start</code>
+- Run application in development mode <code>npm start</code> or <code>yarn start</code>
 - Access in your browser <a href="http://localhost:3000">http://localhost:3000</a>
 
 # Deploy
@@ -21,6 +21,7 @@ Accessing the application: [https://yobetit-frontend-test.herokuapp.com/](https:
 # Questions?
 
 If you have more questions about how the app works, watch this tutorial:
+
 [https://www.loom.com/share/61de7fd3a5084320989e9b7df7740601](https://www.loom.com/share/61de7fd3a5084320989e9b7df7740601)
 
 By: <a href="https://github.com/hick97">Henrique Augusto</a>
