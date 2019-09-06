@@ -16,6 +16,12 @@ export default function user(state = INITIAL_STATE, action) {
         draft.profile = action.payload.profile;
         break;
       }
+
+      case '@machine/GET_SPIN_RESULT_SUCCESS': {
+        draft.profile.coins = action.payload.data.new_coins;
+        break;
+      }
+
       case '@auth/SIGN_OUT': {
         draft.profile = null;
         break;

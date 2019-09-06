@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MdCasino, MdAdd } from 'react-icons/md';
+import { MdCasino } from 'react-icons/md';
 
 import {
   getAllCountriesRequest,
